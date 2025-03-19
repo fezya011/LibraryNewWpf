@@ -1,0 +1,40 @@
+﻿<Window x:Class="LibraryNewWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryNewWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <ListView ItemsSource="{Binding books}" SelectedItem="{Binding SelectedProduct}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}" Width="100"/>
+                        <GridViewColumn Header="Автор" DisplayMemberBinding="{Binding AuthorId}" Width="150"/>
+                        <GridViewColumn Header="Год выпуска" DisplayMemberBinding="{Binding YearPublished}" Width="100"/>
+                        <GridViewColumn Header="Жанр" DisplayMemberBinding="{Binding Genre}" Width="100"/>
+                        <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding IsAvailable}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Добавить" Command="{Binding AddButton}"/>
+            <Button Content="Редактировать" Command="{Binding EditButton}"/>
+            <Button Content="Удалить" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1">
+             <Label Content="🔍"/>
+             <TextBox Width="301"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>
