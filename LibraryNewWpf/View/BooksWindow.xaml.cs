@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace LibraryNewWpf
 {
     /// <summary>
@@ -19,7 +20,7 @@ namespace LibraryNewWpf
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
             DataContext = new BooksViewModel();
         }
     }

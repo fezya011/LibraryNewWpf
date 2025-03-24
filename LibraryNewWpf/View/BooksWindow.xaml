@@ -13,14 +13,14 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <ListView ItemsSource="{Binding books}" SelectedItem="{Binding SelectedProduct}">
+            <ListView ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}" Width="100"/>
-                        <GridViewColumn Header="Автор" DisplayMemberBinding="{Binding AuthorId}" Width="150"/>
+                        <GridViewColumn Header="Автор" DisplayMemberBinding="{Binding AuthorText}" Width="150"/>
                         <GridViewColumn Header="Год выпуска" DisplayMemberBinding="{Binding YearPublished}" Width="100"/>
                         <GridViewColumn Header="Жанр" DisplayMemberBinding="{Binding Genre}" Width="100"/>
-                        <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding IsAvailable}" Width="100"/>
+                        <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding StatusText}" Width="100"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -29,7 +29,14 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Content="Добавить" Command="{Binding AddButton}"/>
             <Button Content="Редактировать" Command="{Binding EditButton}"/>
-            <Button Content="Удалить" />
+            <Button Content="Удалить" Command="{Binding DeleteButton}"/>
+            
+            <Button Width="28" BorderBrush="{x:Null}" Command="{Binding AddAuthor}">
+                <Button.Background>
+                    <ImageBrush ImageSource="C:\Users\Student\source\repos\LibraryNewWpf\LibraryNewWpf\Pictures\359657.png"/>
+                </Button.Background>
+            </Button>
+            
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1">
              <Label Content="🔍"/>

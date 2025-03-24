@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace LibraryNewWpf.View
 {
     /// <summary>
-    /// Логика взаимодействия для EditAddWindow.xaml
+    /// Логика взаимодействия для AuthorWindow.xaml
     /// </summary>
-    public partial class EditAddWindow : Window
+    public partial class AuthorWindow : Window
     {
-        public EditAddWindow()
+        public AuthorWindow()
         {
             InitializeComponent();
-            DataContext = new EditAddViewModel();
+            DataContext = new AuthorViewModel();
         }
     }
 }

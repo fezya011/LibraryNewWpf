@@ -37,21 +37,28 @@ namespace LibraryNewWpf.ViewModel
 
         public ICommand AddButton { get; set; }
         public ICommand EditButton { get; set; }
-        public ICommand DeleteButton { get; set; }       
+        public CommandVM DeleteButton { get; set; }
+        public ICommand AddAuthor { get; set; }
+        
+        ConnectionDB db;
 
         public BooksViewModel()
         {
+            SelectAll();
+
             AddButton = new CommandVM(() =>
             {
-                EditAddWindow editAddWindow = new EditAddWindow();
-                editAddWindow.Show();
+                EditBookWindow editAddWindow = new EditBookWindow(SelectedBook);
+                editAddWindow.ShowDialog();
+                SelectAll();
             }, () => true);
 
             EditButton = new CommandVM(() =>
             {
-                EditAddWindow editAddWindow = new EditAddWindow();
-                editAddWindow.Show();
-            }, () => true);
+                EditBookWindow editAddWindow = new EditBookWindow(SelectedBook);
+                editAddWindow.ShowDialog();
+                SelectAll();
+            }, () => SelectedBook != null);
 
             DeleteButton = new CommandVM(() =>
             {
@@ -59,9 +66,14 @@ namespace LibraryNewWpf.ViewModel
                 SelectAll();
             }, () => SelectedBook != null);
 
-
+            AddAuthor = new CommandVM(() =>
+            {
+                AuthorWindow authorWindow = new AuthorWindow();
+                authorWindow.ShowDialog();
+                SelectAll();
+            }, () => true);
         }
-
+        
         private void SelectAll()
         {
            Books = new List<Book>(BookDB.GetDb().SelectAll());

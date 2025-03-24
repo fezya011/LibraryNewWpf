@@ -56,7 +56,7 @@ namespace LibraryNewWpf.Model
             }
             connection.CloseConnection();
             return result;
-        }
+        }       
 
         internal List<Book> SelectAll()
         {
@@ -66,7 +66,7 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("select `Id`, `Title`, `AuthorId`, `YearPublished`, `Genre` ,`IsAvailable`  from `Books` ");
+                var command = connection.CreateCommand("select b.Id, `Title`, `YearPublished`, `Genre` ,`IsAvailable`, `FirstName`, `Patronymic`, `LastName`, `AuthorId`, `Birthday`  from `Books` `b` JOIN Authors  WHERE AuthorId = Authors.Id ");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -79,30 +79,55 @@ namespace LibraryNewWpf.Model
                         if (!dr.IsDBNull(1))
                             title = dr.GetString("Title");
 
-                        int authorId = 0;
-                        if (!dr.IsDBNull(2))
-                            authorId = dr.GetInt32("AuthorId");
-
                         int yearPublished = 0;
-                        if (!dr.IsDBNull(3))
+                        if (!dr.IsDBNull(2))
                             yearPublished = dr.GetInt32("YearPublished");
 
                         string genre = string.Empty;
-                        if (!dr.IsDBNull(4))
+                        if (!dr.IsDBNull(3))
                             genre = dr.GetString("Genre");
 
                         bool isAvailable = true;
-                        if (!dr.IsDBNull(5))
+                        if (!dr.IsDBNull(4))
                             isAvailable = dr.GetBoolean("IsAvailable");
+
+                        string firstName = string.Empty;
+                        if (!dr.IsDBNull(5))
+                            firstName = dr.GetString("FirstName");
+
+                        string patronymic = string.Empty;
+                        if (!dr.IsDBNull(6))
+                            patronymic = dr.GetString("Patronymic");
+
+                        string lastName = string.Empty;
+                        if (!dr.IsDBNull(7))
+                            lastName = dr.GetString("LastName");
+
+                        int authorId = 0;
+                        if (!dr.IsDBNull(8))
+                            authorId = dr.GetInt32("AuthorId");
+
+                        DateOnly birthday = new DateOnly();
+                        if (!dr.IsDBNull(9))
+                            birthday = dr.GetDateOnly("Birthday");
+
+                        Author author = new Author();
+                        author.Id = authorId;
+                        author.FirstName = firstName;
+                        author.Patronymic = patronymic;
+                        author.LastName = lastName;
+
                         books.Add(new Book
                         {
                             Id = id,
                             Title = title,
-                            AuthorId = authorId,
                             YearPublished = yearPublished,
                             Genre = genre,
-                            IsAvailable = isAvailable
+                            IsAvailable = isAvailable,                        
+                            AuthorId = authorId,
+                            Author = author
                         });
+
                     }
                 }
                 catch (Exception ex)

@@ -8,6 +8,34 @@ namespace LibraryNewWpf.Model
 {
     public class Book
     {
+        public string StatusText
+        {
+            get
+            {
+                if (IsAvailable == true)
+                {
+                    return "Доступна";
+                }
+                else
+                {
+                    return "Взята";
+                }
+            }
+        }
+        public string AuthorText
+        {
+            get
+            {
+                if (AuthorId == Author.Id)
+                {
+                    return Author.LastName + " " + Author.FirstName[0] + "." + Author.Patronymic[0];
+                }
+                else
+                {
+                    return "Неизвестный автор";
+                }
+            }
+        }
         public int Id { get; set; }
         public string Title { get; set; }
         public int AuthorId { get; set; }

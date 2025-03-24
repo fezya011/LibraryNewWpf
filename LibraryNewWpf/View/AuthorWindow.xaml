@@ -1,0 +1,37 @@
+﻿<Window x:Class="LibraryNewWpf.View.AuthorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryNewWpf.View"
+        mc:Ignorable="d"
+        Title="AuthorWindow" Height="400" Width=" 350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <ListView ItemsSource="{Binding Authors}" SelectedItem="{Binding SelectedAuthor}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding LastName}" Width="85"/>
+                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding FirstName}" Width="85"/>
+                        <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}" Width="85"/>
+                        <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding Birthday, StringFormat=dd.MM.yyyy}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Добавить" Command="{Binding AddButton}" Width="94"/>
+            <Button Content="Редактировать" Command="{Binding EditButton}" Width="132"/>
+            <Button Content="Удалить" Command="{Binding DeleteButton}" Width="76"/>
+        </StackPanel>
+
+
+
+    </Grid>
+</Window>
