@@ -1,10 +1,12 @@
 ﻿using LibraryNewWpf.Model;
+using LibraryNewWpf.View;
 using LibraryNewWpf.VMTools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace LibraryNewWpf.ViewModel
 {
@@ -44,15 +46,35 @@ namespace LibraryNewWpf.ViewModel
             }
         }
 
-        public AuthorEditViewModel(Author selectedAuthor)
-        {
-            SelectAll();
+        public ICommand Save { get; set; }
 
+        public AuthorEditViewModel(AuthorEditWindow window ,Author editAuthor)
+        {
+            
+            SelectAll();
+            Author = editAuthor;
+            Save = new CommandVM(() =>
+            {
+                
+                if (Author.Id == 0)
+                {
+                    Author.Birthday = DateTime.Now;
+                    AuthorDB.GetDb().Insert(Author);
+                }
+                else
+                {                  
+                    AuthorDB.GetDb().Update(Author);
+                }
+                window.Close();
+            }, () => true);
         }
+        
 
         private void SelectAll()
         {
             Authors = new List<Author>(AuthorDB.GetDb().SelectAll());
         }
+
+        
     }
 }

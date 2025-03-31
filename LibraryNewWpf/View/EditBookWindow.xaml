@@ -9,18 +9,18 @@
     <Grid>
         <StackPanel>
             <TextBlock Text="Название"/>
-            <TextBox Text="{Binding Title}"/>
+            <TextBox Text="{Binding Book.Title}"/>
             <TextBlock Text="Автор"/>
-            <ComboBox ItemsSource="{Binding Authors}" DisplayMemberPath="ComboText" SelectedItem="{Binding Author}"/>
+            <ComboBox ItemsSource="{Binding Authors}" DisplayMemberPath="ComboText" SelectedItem="{Binding Book.Author}"/>
             <TextBlock Text="Год выпуска"/>
-            <TextBox Text="{Binding YearPublished}"/>
+            <TextBox Text="{Binding Book.YearPublished}"/>
             <TextBlock Text="Жанр"/>
-            <ComboBox ItemsSource="{Binding Genres}" SelectedItem="{Binding Genre}"/>
+            <ComboBox ItemsSource="{Binding Genres}" SelectedItem="{Binding Book.Genre}"/>
             <TextBlock Text="Cтатус"/>
             <StackPanel Orientation="Horizontal">
-                <RadioButton Margin="0,2,0,0" IsChecked="{Binding IsAvailable}"/>
+                <RadioButton Margin="0,2,0,0" IsChecked="{Binding Book.IsAvailable}"/>
                 <TextBlock Text="Доступна" Margin="0,0,60,0"/>
-                <RadioButton Margin="0,2,0,0"/>
+                <RadioButton Margin="0,2,0,0" IsChecked="True"/>
                 <TextBlock Text="Взята"/>
             </StackPanel>
             <Button Content="Сохранить" Width="193" Command="{Binding Save}"/>

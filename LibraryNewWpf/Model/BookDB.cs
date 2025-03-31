@@ -26,13 +26,14 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                MySqlCommand cmd = connection.CreateCommand("insert into `Books` Values (0, @Title, @AuthorId, @YearPublished ,@Genre ,@IsAvailable);select LAST_INSERT_ID();");
+                MySqlCommand cmd = connection.CreateCommand("insert into `Books` Values (0, @Title, @AuthorId, @YearPublished ,@Genre ,@IsAvailable, @UserId);select LAST_INSERT_ID();");
 
                 cmd.Parameters.Add(new MySqlParameter("Title", book.Title));
                 cmd.Parameters.Add(new MySqlParameter("AuthorId", book.AuthorId));
                 cmd.Parameters.Add(new MySqlParameter("YearPublished", book.YearPublished));
                 cmd.Parameters.Add(new MySqlParameter("Genre", book.Genre));
                 cmd.Parameters.Add(new MySqlParameter("IsAvailable", book.IsAvailable));
+                cmd.Parameters.Add(new MySqlParameter("UserId", book.UserId));
 
                 try
                 {
@@ -66,7 +67,7 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("select b.Id, `Title`, `YearPublished`, `Genre` ,`IsAvailable`, `FirstName`, `Patronymic`, `LastName`, `AuthorId`, `Birthday`  from `Books` `b` JOIN Authors  WHERE AuthorId = Authors.Id ");
+                var command = connection.CreateCommand("select b.Id, `Title`, `YearPublished`, `Genre` ,`IsAvailable`, `FirstName`, `Patronymic`, `LastName`, `AuthorId`, `Birthday`, `Username`, `Password`, `b`.`UserId` from `Books` `b` JOIN Authors, Users  WHERE AuthorId = Authors.Id AND b.UserId = Users.Id");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -111,11 +112,28 @@ namespace LibraryNewWpf.Model
                         if (!dr.IsDBNull(9))
                             birthday = dr.GetDateOnly("Birthday");
 
+                        string username = string.Empty;
+                        if (!dr.IsDBNull(10))
+                            username = dr.GetString("Username");
+
+                        string password = string.Empty;
+                        if (!dr.IsDBNull(11))
+                            password = dr.GetString("Password");
+
+                        int userId = 0;
+                        if (!dr.IsDBNull(12))
+                            userId = dr.GetInt32("UserId");
+
                         Author author = new Author();
                         author.Id = authorId;
                         author.FirstName = firstName;
                         author.Patronymic = patronymic;
-                        author.LastName = lastName;
+                        author.LastName = lastName; 
+
+                        User user = new User();
+                        user.Id = userId;
+                        user.Username = username;
+                        user.Password = password;
 
                         books.Add(new Book
                         {

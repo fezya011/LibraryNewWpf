@@ -8,16 +8,16 @@ using System.Windows;
 
 namespace LibraryNewWpf.Model
 {
-    public class AuthorDB
+    public class UserDB
     {
         ConnectionDB connection;
 
-        private AuthorDB(ConnectionDB db)
+        private UserDB(ConnectionDB db)
         {
             this.connection = db;
         }
 
-        public bool Insert(Author author)
+        public bool Insert(User user)
         {
             bool result = false;
             if (connection == null)
@@ -25,12 +25,11 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                MySqlCommand cmd = connection.CreateCommand("insert into `Authors` Values (0, @FirstName, @Patronymic, @LastName ,@Birthday );select LAST_INSERT_ID();");
+                MySqlCommand cmd = connection.CreateCommand("insert into `Users` Values (0, @Username, @Password, @BooksId);select LAST_INSERT_ID();");
 
-                cmd.Parameters.Add(new MySqlParameter("FirstName", author.FirstName));
-                cmd.Parameters.Add(new MySqlParameter("Patronymic", author.Patronymic));
-                cmd.Parameters.Add(new MySqlParameter("LastName", author.LastName));
-                cmd.Parameters.Add(new MySqlParameter("Birthday", author.Birthday));
+                cmd.Parameters.Add(new MySqlParameter("Username", user.Username));
+                cmd.Parameters.Add(new MySqlParameter("Password", user.Password));
+                cmd.Parameters.Add(new MySqlParameter("BooksId", user.BooksId));             
 
                 try
                 {
@@ -39,7 +38,7 @@ namespace LibraryNewWpf.Model
                     if (id > 0)
                     {
                         MessageBox.Show(id.ToString());
-                        author.Id = id;
+                        user.Id = id;
                         result = true;
                     }
                     else
@@ -57,15 +56,15 @@ namespace LibraryNewWpf.Model
 
         }
 
-        internal List<Author> SelectAll()
+        internal List<User> SelectAll()
         {
-            List<Author> authors = new List<Author>();
+            List<User> users = new List<User>();
             if (connection == null)
-                return authors;
+                return users;
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("select `Id`, `FirstName`, `Patronymic`, `LastName` ,`Birthday`  from `Authors`");
+                var command = connection.CreateCommand("select `Id`, `Username`, `Password`, `BooksId`  from `Users`");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -74,29 +73,25 @@ namespace LibraryNewWpf.Model
                     {
                         int id = dr.GetInt32(0);
 
-                        string firstName = string.Empty;
+                        string userName = string.Empty;
                         if (!dr.IsDBNull(1))
-                            firstName = dr.GetString("FirstName");
+                            userName = dr.GetString("Username");
 
-                        string patronymic = string.Empty;
+                        string password = string.Empty;
                         if (!dr.IsDBNull(2))
-                            patronymic = dr.GetString("Patronymic");
+                            password = dr.GetString("Password");
 
-                        string lastName = string.Empty;
+                        int booksId = 0;
                         if (!dr.IsDBNull(3))
-                            lastName = dr.GetString("LastName");
+                            booksId = dr.GetInt32("BooksId");
+                   
 
-                        DateTime birthday = new DateTime();
-                        if (!dr.IsDBNull(4))
-                            birthday = dr.GetDateTime("Birthday");
-
-                        authors.Add(new Author
+                        users.Add(new User
                         {
                             Id = id,
-                            FirstName = firstName,
-                            LastName = lastName,
-                            Patronymic = patronymic,
-                            Birthday = birthday,
+                            Username = userName,
+                            Password = password,
+                            BooksId = booksId,                       
                         });
 
                     }
@@ -107,10 +102,10 @@ namespace LibraryNewWpf.Model
                 }
             }
             connection.CloseConnection();
-            return authors;
+            return users;
         }
 
-        internal bool Update(Author edit)
+        internal bool Update(User edit)
         {
             bool result = false;
             if (connection == null)
@@ -118,11 +113,10 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var mc = connection.CreateCommand($"update `Authors` set `FirstName`=@FirstName, `Patronymic`=@Patronymic, `LastName`=@LastName, `Birthday`=@Birthday where `Id` = {edit.Id}");
-                mc.Parameters.Add(new MySqlParameter("FirstName", edit.FirstName));
-                mc.Parameters.Add(new MySqlParameter("Patronymic", edit.Patronymic));
-                mc.Parameters.Add(new MySqlParameter("LastName", edit.LastName));
-                mc.Parameters.Add(new MySqlParameter("Birthday", edit.Birthday));
+                var mc = connection.CreateCommand($"update `Users` set `Username`=@Username, `Password`=@Password, `BooksId`=@BooksId,`Id` = {edit.Id}");
+                mc.Parameters.Add(new MySqlParameter("Username", edit.Username));
+                mc.Parameters.Add(new MySqlParameter("Password", edit.Password));
+                mc.Parameters.Add(new MySqlParameter("BooksId", edit.BooksId));
                 try
                 {
                     mc.ExecuteNonQuery();
@@ -138,7 +132,7 @@ namespace LibraryNewWpf.Model
         }
 
 
-        internal bool Remove(Author remove)
+        internal bool Remove(User remove)
         {
             bool result = false;
             if (connection == null)
@@ -146,7 +140,7 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var mc = connection.CreateCommand($"delete from `Authors` where `Id` = {remove.Id}");
+                var mc = connection.CreateCommand($"delete from `Users` where `Id` = {remove.Id}");
                 try
                 {
                     mc.ExecuteNonQuery();
@@ -161,13 +155,13 @@ namespace LibraryNewWpf.Model
             return result;
         }
 
-        static AuthorDB db;
-        public static AuthorDB GetDb()
+        static UserDB db;
+        public static UserDB GetDb()
         {
             if (db == null)
-                db = new AuthorDB(ConnectionDB.GetDbConnection());
+                db = new UserDB(ConnectionDB.GetDbConnection());
             return db;
         }
     }
 }
-
+        

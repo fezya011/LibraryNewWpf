@@ -39,8 +39,8 @@
             
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1">
-             <Label Content="🔍"/>
-             <TextBox Width="301"/>
+            <Label Content="🔍"/>
+            <TextBox Width="301" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         
     </Grid>

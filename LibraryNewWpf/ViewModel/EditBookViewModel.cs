@@ -16,70 +16,14 @@ namespace LibraryNewWpf.ViewModel
 {
     public class EditBookViewModel : BaseVM
     {
-        private string title;
+        
         private Author author;
-        private int yearPublished;
-        private string genre;
-        private bool isAvailable;
-        private bool isTaken;
         private List<Author> authors;
         private List<string> genres;
+        private Book book;
 
-        public string Title
-        {
-            get => title;
-            set
-            {
-                title = value;
-                Signal();
-            }
-        }
+       
 
-        public Author Author
-        {
-            get => author;
-            set
-            {
-                author = value;
-                Signal();
-            }
-        }
-        public int YearPublished
-        {
-            get => yearPublished;
-            set
-            {
-                yearPublished = value;
-                Signal();
-            }
-        }
-        public string Genre
-        {
-            get => genre;
-            set
-            {
-                genre = value;
-                Signal();
-            }
-        }
-        public bool IsAvailable
-        {
-            get => isAvailable;
-            set
-            {
-                isAvailable = value;
-                Signal();
-            }
-        }
-        public bool IsTaken
-        {
-            get => isTaken;
-            set
-            {
-                isTaken = value;
-                Signal();
-            }
-        }
 
         public List<Author> Authors
         {
@@ -100,51 +44,51 @@ namespace LibraryNewWpf.ViewModel
                 Signal();
             }
         }
+        public Book Book 
+        {
+            get => book;
+            set
+            {
+                book = value;
+                Signal();
+            } 
+        }
+
+
 
         public ICommand Save { get; set; }
 
-        public EditBookViewModel(EditBookWindow window, Book selectedBook)
+        public EditBookViewModel(EditBookWindow window, Book editBook)
         {
+            Book = editBook;    
             Genres = new List<string>() {"Роман", "Фантастика", "Романтика", "Драма", "Детектив", "Комедия"};
             
             SelectAll();
 
             Save = new CommandVM(() =>
             {
-                if (selectedBook.Id == 0)
+                Book.AuthorId = Book.Author.Id;
+                if (Book.Id == 0)
                 {
-                    Book book = new Book
-                    {
-                        Title = Title,
-                        Author = Author,
-                        YearPublished = YearPublished,
-                        Genre = Genre,
-                        AuthorId = Author.Id,
-                        IsAvailable = IsAvailable
-                    };
-                    BookDB.GetDb().Insert(book);
+                    BookDB.GetDb().Insert(Book);
                 }
                 else
-                {
-                    selectedBook.Title = Title;
-                    selectedBook.Author = Author;
-                    selectedBook.YearPublished = YearPublished;
-                    selectedBook.Genre = Genre;
-                    selectedBook.AuthorId = Author.Id;
-                    selectedBook.IsAvailable = IsAvailable;
-                    BookDB.GetDb().Update(selectedBook);
+                {                    
+                    BookDB.GetDb().Update(Book);
                 }
 
                 window.Close();               
-            }, () => string.IsNullOrWhiteSpace(Title) || Author != null || YearPublished != 0 || Genre != null || IsAvailable == true);
+            }, () => string.IsNullOrWhiteSpace(Book.Title) || Book.Author != null || Book.YearPublished != 0 || Book.Genre != null || Book.IsAvailable == true);
         }
+
         private void SelectAll()
         {
             Authors = new List<Author>(AuthorDB.GetDb().SelectAll());
+            if (Book.Author != null)
+            {
+                Book.Author = Authors.FirstOrDefault(s => s.Id == Book.Author.Id);
+            }
         }
-
-
-
     }
 
 }

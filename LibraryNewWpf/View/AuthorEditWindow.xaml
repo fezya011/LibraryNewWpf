@@ -7,7 +7,23 @@
         mc:Ignorable="d"
         Title="AuthorEditWindow" Height="450" Width="350">
     <Grid>
-        <TextBlock Text="Имя"/>
-        <TextBox />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Имя"/>
+            <TextBox Text="{Binding Author.FirstName}"/>
+            <TextBlock Text="Фамилия"/>
+            <TextBox Text="{Binding Author.LastName}"/>
+            <TextBlock Text="Отчество"/>
+            <TextBox Text="{Binding Author.Patronymic}"/>
+            <TextBlock Text="Дата рождения"/>
+            <DatePicker SelectedDate="{Binding Author.Birthday}" />
+            <Button Content="Сохранить" HorizontalAlignment="Center" Width="149" Command="{Binding Save}"/>
+        </StackPanel>
+
+
     </Grid>
 </Window>

@@ -46,13 +46,15 @@ namespace LibraryNewWpf.ViewModel
 
             AddButton = new CommandVM(() =>
             {
-                AuthorEditWindow editAddWindow = new AuthorEditWindow(SelectedAuthor);
+                Author author = new Author();
+                AuthorEditWindow editAddWindow = new AuthorEditWindow(author);
                 editAddWindow.ShowDialog();
                 SelectAll();
             }, () => true);
 
             EditButton = new CommandVM(() =>
             {
+
                 AuthorEditWindow editAddWindow = new AuthorEditWindow(SelectedAuthor);
                 editAddWindow.ShowDialog();
                 SelectAll();

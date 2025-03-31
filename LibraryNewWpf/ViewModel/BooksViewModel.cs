@@ -14,6 +14,7 @@ namespace LibraryNewWpf.ViewModel
     {
         private Book selectedBook;
         private List<Book> books;
+        private string search;
 
         public Book SelectedBook 
         { 
@@ -34,11 +35,22 @@ namespace LibraryNewWpf.ViewModel
                 Signal();
             }
         }
+        public string Search
+        {
+            get => search;
+            set
+            {
+                search = value;
+                SearchBook(search);
+                Signal();
+            }
+        }
 
         public ICommand AddButton { get; set; }
         public ICommand EditButton { get; set; }
         public CommandVM DeleteButton { get; set; }
         public ICommand AddAuthor { get; set; }
+        public ICommand SearchButton { get; set; }
         
         ConnectionDB db;
 
@@ -48,7 +60,8 @@ namespace LibraryNewWpf.ViewModel
 
             AddButton = new CommandVM(() =>
             {
-                EditBookWindow editAddWindow = new EditBookWindow(SelectedBook);
+                
+                EditBookWindow editAddWindow = new EditBookWindow(new Book());
                 editAddWindow.ShowDialog();
                 SelectAll();
             }, () => true);
@@ -72,11 +85,21 @@ namespace LibraryNewWpf.ViewModel
                 authorWindow.ShowDialog();
                 SelectAll();
             }, () => true);
+
+            SearchButton = new CommandVM(() =>
+            {
+
+            }, () => true);
         }
         
         private void SelectAll()
         {
            Books = new List<Book>(BookDB.GetDb().SelectAll());
+        }
+
+        private void SearchBook(string search)
+        {
+            Books = SearchTable.GetTable().SearchBook(search);
         }
     }
 }

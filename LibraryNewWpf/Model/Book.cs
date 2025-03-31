@@ -43,5 +43,7 @@ namespace LibraryNewWpf.Model
         public int YearPublished { get; set; }
         public string Genre { get; set; }
         public bool IsAvailable { get; set; }
+        public int UserId { get; set; }
+        
     }
 }

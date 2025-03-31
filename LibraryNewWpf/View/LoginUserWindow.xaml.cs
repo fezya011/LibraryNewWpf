@@ -1,5 +1,4 @@
-﻿using LibraryNewWpf.Model;
-using LibraryNewWpf.ViewModel;
+﻿using LibraryNewWpf.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +16,14 @@ using System.Windows.Shapes;
 namespace LibraryNewWpf.View
 {
     /// <summary>
-    /// Логика взаимодействия для AuthorEditWindow.xaml
+    /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class AuthorEditWindow : Window
+    public partial class LoginWindow : Window
     {
-        public AuthorEditWindow(Author editAuthor)
+        public LoginWindow()
         {
             InitializeComponent();
-            DataContext = new AuthorEditViewModel(this, editAuthor);
+            DataContext = new LoginUserViewModel();
         }
     }
 }
