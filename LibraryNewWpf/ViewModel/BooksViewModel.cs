@@ -54,7 +54,7 @@ namespace LibraryNewWpf.ViewModel
         
         ConnectionDB db;
 
-        public BooksViewModel()
+        public BooksViewModel(User user)
         {
             SelectAll();
 

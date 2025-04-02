@@ -1,4 +1,5 @@
-﻿using LibraryNewWpf.ViewModel;
+﻿using LibraryNewWpf.Model;
+using LibraryNewWpf.ViewModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,10 +19,10 @@ namespace LibraryNewWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(User user)
         {
             InitializeComponent();           
-            DataContext = new BooksViewModel();
+            DataContext = new BooksViewModel(user);
         }
     }
 }

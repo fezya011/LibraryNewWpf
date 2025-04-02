@@ -1,4 +1,5 @@
 ﻿using LibraryNewWpf.Model;
+using LibraryNewWpf.View;
 using LibraryNewWpf.VMTools;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,23 @@ namespace LibraryNewWpf.ViewModel
         }
 
         public ICommand Login { get; set; }
+        public ICommand Register { get; set; }
 
         public LoginUserViewModel()
         {
-            
+            SelectAll();
+            Register = new CommandVM(() =>
+            {
+                RegisterUserWindow registerUserWindow = new RegisterUserWindow();
+                registerUserWindow.ShowDialog();
+            }, () => true);
+
+            Login = new CommandVM(() =>
+            {
+                if (Users.Contains())
+
+
+            }, () => string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password));
         }
 
         private void SelectAll()

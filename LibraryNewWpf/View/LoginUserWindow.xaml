@@ -14,13 +14,13 @@
         
         <StackPanel Grid.Row="0">
             <TextBlock Text="Логин"/>
-            <TextBox/>
+            <TextBox Text="{Binding User.Username}"/>
             <TextBlock Text="Пароль"/>
-            <TextBox/>
+            <TextBox Text="{Binding User.Password}"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Регистрация" Width="75"/>
+            <Button Content="Регистрация" Width="75" Command="{Binding Register}"/>
             <Button Content="Войти" Width="75" Command="{Binding Login}"/>
         </StackPanel>
     </Grid>
