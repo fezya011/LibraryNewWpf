@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace LibraryNewWpf.ViewModel
 {
     public class LoginUserViewModel : BaseVM
     {
-        private User user;
+        private User user = new User();
         private List<User> users;
 
         public User User 
@@ -49,10 +50,20 @@ namespace LibraryNewWpf.ViewModel
 
             Login = new CommandVM(() =>
             {
-                if (Users.Contains())
+                User user = Users.FirstOrDefault(u => u.Username == User.Username && u.Password == User.Password);
+                if (user != null)
+                {
+                    MainWindow booksWindow = new MainWindow(user);
+                    booksWindow.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Неправильный ввод");
+                }
+                
 
 
-            }, () => string.IsNullOrWhiteSpace(User.Username) || string.IsNullOrWhiteSpace(User.Password));
+            },() => !string.IsNullOrWhiteSpace(User.Username) && !string.IsNullOrWhiteSpace(User.Password));
         }
 
         private void SelectAll()

@@ -25,12 +25,13 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                MySqlCommand cmd = connection.CreateCommand("insert into `Users` Values (0, @Username, @Password, @BooksId);select LAST_INSERT_ID();");
+                MySqlCommand cmd = connection.CreateCommand("insert into `Users` Values (0, @Username, @Password, @FirstName, @LastName, @Surname);select LAST_INSERT_ID();");
 
                 cmd.Parameters.Add(new MySqlParameter("Username", user.Username));
                 cmd.Parameters.Add(new MySqlParameter("Password", user.Password));
-                cmd.Parameters.Add(new MySqlParameter("BooksId", user.BooksId));             
-
+                cmd.Parameters.Add(new MySqlParameter("FisrtName", user.FirstName));
+                cmd.Parameters.Add(new MySqlParameter("LastName", user.LastName));
+                cmd.Parameters.Add(new MySqlParameter("Surname", user.Surname));
                 try
                 {
 
@@ -64,7 +65,7 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("select `Id`, `Username`, `Password`, `BooksId`  from `Users`");
+                var command = connection.CreateCommand("select `Id`, `Username`, `Password`, `FirstName`, `LastName`, `Surname` ` from `Users`");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -81,17 +82,26 @@ namespace LibraryNewWpf.Model
                         if (!dr.IsDBNull(2))
                             password = dr.GetString("Password");
 
-                        int booksId = 0;
-                        if (!dr.IsDBNull(3))
-                            booksId = dr.GetInt32("BooksId");
-                   
+                        string firstName = string.Empty;
+                        if (!dr.IsDBNull(1))
+                            firstName = dr.GetString("FirstName");
+
+                        string lastName = string.Empty;
+                        if (!dr.IsDBNull(1))
+                            lastName = dr.GetString("LastName");
+
+                        string surname = string.Empty;
+                        if (!dr.IsDBNull(1))
+                            surname = dr.GetString("Surname");
 
                         users.Add(new User
                         {
                             Id = id,
                             Username = userName,
                             Password = password,
-                            BooksId = booksId,                       
+                            FirstName = firstName,
+                            LastName = lastName,
+                            Surname = surname,
                         });
 
                     }
@@ -113,10 +123,13 @@ namespace LibraryNewWpf.Model
 
             if (connection.OpenConnection())
             {
-                var mc = connection.CreateCommand($"update `Users` set `Username`=@Username, `Password`=@Password, `BooksId`=@BooksId,`Id` = {edit.Id}");
+                var mc = connection.CreateCommand($"update `Users` set `Username`=@Username, `Password`=@Password, `FirstName`=@FirstName, `LastName`=@LastName, `Surname`=@Surname,`Id` = {edit.Id}");
                 mc.Parameters.Add(new MySqlParameter("Username", edit.Username));
                 mc.Parameters.Add(new MySqlParameter("Password", edit.Password));
-                mc.Parameters.Add(new MySqlParameter("BooksId", edit.BooksId));
+                mc.Parameters.Add(new MySqlParameter("LastName", edit.LastName));
+                mc.Parameters.Add(new MySqlParameter("FirstName", edit.FirstName));
+                mc.Parameters.Add(new MySqlParameter("Surname", edit.Surname));
+
                 try
                 {
                     mc.ExecuteNonQuery();

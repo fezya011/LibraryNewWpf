@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryNewWpf.View"
         mc:Ignorable="d"
-        Title="RegisterUserWindow" Height="450" Width="800">
+        Title="RegisterUserWindow" Height="200" Width="200">
     <Grid>
         
     </Grid>
